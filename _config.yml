@@ -1,18 +1,18 @@
 # Site settings
-title: Zetsu
-email: zetsu@domain.com
-description: Um lindo tema feito para jekyll e com o <3
+title: Johnson
+email: zsfbradleyjohnson@126.com
+description: Make real
 baseurl: ""
-url: "http://nandomoreira.me"
+url: "https://zsfbradleyjohnson.github.io"
 
 author:
-  name     : 'Fernando Moreira'
-  email    : hi@nandomoreira.me
-  url      : http://nandomoreira.me
+  name     : 'Bradley Johnson'
+  email    : zsfbradleyjohnson@126.com
+  url      : https://zsfbradleyjohnson.github.io
   facebook : http://facebook.com/fernando.dev
   twitter  : http://twitter.com/nandomoreirame
 
-github: https://github.com/nandomoreirame/zetsu
+github: https://github.com/zsfbradleyjohnson
 disqus_shortname: "fernandomoreira"
 google_analytics: UA-52446115-1
 
