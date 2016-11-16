@@ -41,23 +41,34 @@ slug: author
 
     @end
 
-<!-- 以下，是我的赋值信息： -->
+以下，是我的赋值信息：
 
-    Developer * developer = [Developer new];
+    #import "ViewController.h"
+    #import "Developer.h"
 
-    NSMutableDictionary * attributesArray = [NSMutableDictionary new];
-    [attributesArray setValue:@"周深发" forKey:@"name"];
-    [attributesArray setValue:@24 forKey:@"age"];
-    [attributesArray setValue:@(SexTypeMale) forKey:@"sex"];
-    [attributesArray setValue:@"广东海洋大学" forKey:@"college"];
+    @implementation MainViewController
 
-    [attributesArray setValue:@"18476658843" forKey:@"phoneNumber"];
-    [attributesArray setValue:@"zsfbradleyjohnson@126.com" forKey:@"email"];
-    [attributesArray setValue:@"504533850" forKey:@"qqNumber"];
+    - (void)viewDidLoad {
+        [super viewDidLoad];
 
-    [attributesArray setValue:@2.75 forKey:@"workExperienceNumber"];
-    [attributesArray setValue:@[@"深圳全民尚网网络科技有限公司",@"深圳一云网络科技有限公司",@"湛江华星网络科技有限公司"] forKey:@"pastCompany"];
-    [attributesArray setValue:@[@"wifi8",@"智慧家园",@"全民公寓",@"好笔头",@"折扣买"] forKey:@"pastProject"];
+        Developer * developer = [Developer new];
 
-    [developer setValuesForKeysWithDictionary:attributesArray];
+        NSMutableDictionary * attributesArray = [NSMutableDictionary new];
+        [attributesArray setValue:@"周深发" forKey:@"name"];
+        [attributesArray setValue:@24 forKey:@"age"];
+        [attributesArray setValue:@(SexTypeMale) forKey:@"sex"];
+        [attributesArray setValue:@"广东海洋大学" forKey:@"college"];
+
+        [attributesArray setValue:@"18476658843" forKey:@"phoneNumber"];
+        [attributesArray setValue:@"zsfbradleyjohnson@126.com" forKey:@"email"];
+        [attributesArray setValue:@"504533850" forKey:@"qqNumber"];
+
+        [attributesArray setValue:@2.75 forKey:@"workExperienceNumber"];
+        [attributesArray setValue:@[@"深圳全民尚网网络科技有限公司",@"深圳一云网络科技有限公司",@"湛江华星网络科技有限公司"] forKey:@"pastCompany"];
+        [attributesArray setValue:@[@"wifi8",@"智慧家园",@"全民公寓",@"好笔头",@"折扣买"] forKey:@"pastProject"];
+
+        [developer setValuesForKeysWithDictionary:attributesArray];
+    }
+
+    @end
 
