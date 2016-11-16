@@ -1,49 +1,22 @@
-# Zetsu
+# Bradley Johnson
 
-> **Zetsu** - is a clean theme for Jekyll :smirk:
+> **iOS developer** - do something better :smirk:
 
 > :warning:
-  This theme requires ruby and rubygems installed
-
-* [x] Clean layout
-* [x] Resposive layout
-* [x] Preprocessor SASS
-* [x] CSS minified
-* [x] HTML minified
-* [x] Pagination
-* [x] Syntax highlight
-* [x] Author config
-* [x] Social links
-* [x] Share posts
-* [x] Comments with Disqus
+  do not pull any requests
 
 ---
 
-### Start in 4 steps
+### My blog
 
-1. Download or clone repo `git clone git@github.com:nandomoreirame/zetsu.git`
-2. Enter the folder: `cd zetsu/`
-3. Install Ruby gems: `bundle install`
-4. Start Jekyll server: `jekyll serve`
+[Johnson](http://www.zsfbradleyjohnson.com)
+[简书](http://www.jianshu.com/users/91577acf333a/latest_articles)
 
-Access, [localhost:4000/zetsu](http://localhost:4000/zetsu/)
+欢迎订阅和私信，一起讨论代码中的不足与改进它。
 
-### Deploy in Github pages in 2 steps
+### Thanks
 
-1. Change the variables `GITHUB_REPONAME` and `GITHUB_REPO_BRANCH` in `Rakefile`
-2. Run `rake site:publish` for build and publish on Github
+1. Thank `Zetsu - free Jekyll theme` for my private web site.
+2. Thank my teacher and friends help.
 
-[Demo](https://nandomoreira.me/zetsu/)
-
-![Zetsu - free Jekyll theme](/screenshot.png)
-
----
-
-### Copyright and license
-
-It is under [the MIT license](/LICENSE).
-
-> :warning:
-  Please remove metas `<meta name="robots" content="noindex">` and `<meta name="googlebot" content="noindex">` in `_layouts/default.html`
-
-Enjoy :yum:
+:yum:
