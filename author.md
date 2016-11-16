@@ -1,6 +1,6 @@
 ---
 layout: page
-title: 作者介绍
+title: Author
 permalink: /author/
 slug: author
 ---
