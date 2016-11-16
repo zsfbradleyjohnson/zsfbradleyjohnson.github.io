@@ -7,9 +7,9 @@
 
 ---
 
-### My blog
+### Blog
 
-[Johnson](http://www.zsfbradleyjohnson.com)
+[Johnson私人博客](http://www.zsfbradleyjohnson.com)
 <br/>
 [简书](http://www.jianshu.com/users/91577acf333a/latest_articles)
 
