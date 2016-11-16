@@ -16,7 +16,6 @@ slug: author
 
     @interface Developer : NSObject
 
-
     /**
     basic attributes
     */
@@ -25,18 +24,18 @@ slug: author
     @property (nonatomic , assign) SexType     sex;
     @property (nonatomic , strong) NSString  * college;
 
-/**
- contact attributes
- */
-@property (nonatomic , strong) NSString  * phoneNumber;
-@property (nonatomic , strong) NSString  * email;
-@property (nonatomic , strong) NSString  * qqNumber;
+    /**
+    contact attributes
+    */
+    @property (nonatomic , strong) NSString  * phoneNumber;
+    @property (nonatomic , strong) NSString  * email;
+    @property (nonatomic , strong) NSString  * qqNumber;
 
-/**
- work experience
- */
-@property (nonatomic , assign) NSUInteger  workExperienceNumber;
-@property (nonatomic , strong) NSArray   * pastCompany;
-@property (nonatomic , strong) NSArray   * pastProject;
+    /**
+    work experience
+    */
+    @property (nonatomic , assign) NSUInteger  workExperienceNumber;
+    @property (nonatomic , strong) NSArray   * pastCompany;
+    @property (nonatomic , strong) NSArray   * pastProject;
 
-@end
+    @end
