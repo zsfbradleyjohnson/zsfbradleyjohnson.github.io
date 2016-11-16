@@ -41,7 +41,7 @@ slug: author
 
     @end
 
-以下，是我的赋值信息：
+<!-- 以下，是我的赋值信息： -->
 
     Developer * developer = [Developer new];
 
