@@ -5,25 +5,25 @@ permalink: /author/
 slug: author
 ---
 
-  #import <Foundation/Foundation.h>
+    #import <Foundation/Foundation.h>
 
-  typedef NS_ENUM(NSInteger,SexType) {
-      SexTypeUnknow = 0,
-      SexTypeMale,
-      SexTypeFemale,
-      SexTypeNeutral,
-  };
+    typedef NS_ENUM(NSInteger,SexType) {
+          SexTypeUnknow = 0,
+          SexTypeMale,
+          SexTypeFemale,
+          SexTypeNeutral,
+      };
 
-@interface Developer : NSObject
+    @interface Developer : NSObject
 
 
-/**
- basic attributes
- */
-@property (nonatomic , strong) NSString  * name;
-@property (nonatomic , assign) NSInteger * age;
-@property (nonatomic , assign) SexType     sex;
-@property (nonatomic , strong) NSString  * college;
+    /**
+    basic attributes
+    */
+    @property (nonatomic , strong) NSString  * name;
+    @property (nonatomic , assign) NSInteger * age;
+    @property (nonatomic , assign) SexType     sex;
+    @property (nonatomic , strong) NSString  * college;
 
 /**
  contact attributes
