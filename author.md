@@ -5,7 +5,8 @@ permalink: /author/
 slug: author
 ---
 
-`#import <Foundation/Foundation.h>
+`
+#import <Foundation/Foundation.h>
 
 typedef NS_ENUM(NSInteger,SexType) {
     SexTypeUnknow = 0,
@@ -39,4 +40,5 @@ typedef NS_ENUM(NSInteger,SexType) {
 @property (nonatomic , strong) NSArray   * pastCompany;
 @property (nonatomic , strong) NSArray   * pastProject;
 
-@end`
+@end
+`
