@@ -40,4 +40,3 @@ slug: author
 @property (nonatomic , strong) NSArray   * pastProject;
 
 @end
-`
