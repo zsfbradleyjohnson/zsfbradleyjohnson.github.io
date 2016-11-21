@@ -11,7 +11,7 @@ slug: author
 
 >自学过HTML、CSS、JavaScript，能够看懂基本网页源码标签、style布局样式和简单的JavaScript原生代码，但并未将其实际应用到项目中。
 
->Anyway，现在是离职待业状态，如果有可以合作的机会，希望您能联系我，这是我的邮箱(zsfbradleyjohnson@126.com)。
+>目前是离职待业状态，如果有可以合作的机会，希望您能联系我，这是我的邮箱(zsfbradleyjohnson@126.com)。
 
 ***
 
