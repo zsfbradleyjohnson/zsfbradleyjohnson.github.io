@@ -37,36 +37,36 @@ comments: true
 	
 	- (void)drawRect:(CGRect)rect {
     
-    //获取图形上下文
-    CGContextRef context = UIGraphicsGetCurrentContext();
+    	//获取图形上下文
+    	CGContextRef context = UIGraphicsGetCurrentContext();
     
-    //设置线条颜色
-    CGContextSetRGBStrokeColor(context, 1, 0, 0, 1);
+    	//设置线条颜色
+    	CGContextSetRGBStrokeColor(context, 1, 0, 0, 1);
     
-    //设置线条宽度
-    CGContextSetLineWidth(context, 2.f);
+    	//设置线条宽度
+    	CGContextSetLineWidth(context, 2.f);
     
-    //设置线条起点和终点的样式
-    CGContextSetLineCap(context, kCGLineCapRound);
+    	//设置线条起点和终点的样式
+    	CGContextSetLineCap(context, kCGLineCapRound);
     
-    //设置线条的转角的样式
-    CGContextSetLineJoin(context, kCGLineJoinRound);
+    	//设置线条的转角的样式
+    	CGContextSetLineJoin(context, kCGLineJoinRound);
 
     
-    // 画线方式 1
-	//    CGContextMoveToPoint(context, 100, 120);
-	//    CGContextAddLineToPoint(context, 150, 120);
+    	// 画线方式 1
+		//    CGContextMoveToPoint(context, 100, 120);
+		//    CGContextAddLineToPoint(context, 150, 120);
 	    
-    // 画线方式 2
-    CGPoint apoint[2];
-    apoint[0] = CGPointMake(100, 120);
-    apoint[1] = CGPointMake(150, 120);
-    CGContextAddLines(context, apoint, 2);
+    	// 画线方式 2
+    	CGPoint apoint[2];
+    	apoint[0] = CGPointMake(100, 120);
+    	apoint[1] = CGPointMake(150, 120);
+    	CGContextAddLines(context, apoint, 2);
     
-    //是否闭合路径
-    //    CGContextClosePath(context);
+    	//是否闭合路径
+    	//    CGContextClosePath(context);
     
-    CGContextDrawPath(context, kCGPathFillStroke);
+    	CGContextDrawPath(context, kCGPathFillStroke);
 	}
 	
 	@end
@@ -77,44 +77,50 @@ comments: true
 <br>
 ##### 4.2 绘制一条折线（闭合且填充内容）
 
+	#import "BJView.h"
+
+	@implementation BJView
+
 	- (void)drawRect:(CGRect)rect {
     
-    //获取图形上下文
-    CGContextRef context = UIGraphicsGetCurrentContext();
+    	//获取图形上下文
+    	CGContextRef context = UIGraphicsGetCurrentContext();
     
-    //设置边框颜色
-    CGContextSetRGBStrokeColor(context, 1, 0, 0, 1);
+    	//设置边框颜色
+    	CGContextSetRGBStrokeColor(context, 1, 0, 0, 1);
     
-    //设置填充颜色
-    CGContextSetRGBFillColor(context, 0, 1, 0, 1);
+    	//设置填充颜色
+    	CGContextSetRGBFillColor(context, 0, 1, 0, 1);
     
-    //设置线条宽度
-    CGContextSetLineWidth(context, 2.f);
+    	//设置线条宽度
+    	CGContextSetLineWidth(context, 2.f);
     
-    //设置线条起点和终点的样式
-    CGContextSetLineCap(context, kCGLineCapRound);
+    	//设置线条起点和终点的样式
+    	CGContextSetLineCap(context, kCGLineCapRound);
     
-    //设置线条的转角的样式
-    CGContextSetLineJoin(context, kCGLineJoinRound);
+    	//设置线条的转角的样式
+    	CGContextSetLineJoin(context, kCGLineJoinRound);
 
     
-    // 画线方式 1
-	//    CGContextMoveToPoint(context, 100, 120);
-	//    CGContextAddLineToPoint(context, 150, 120);
-	//    CGContextAddLineToPoint(context, 150, 180);
+    	// 画线方式 1
+		//    CGContextMoveToPoint(context, 100, 120);
+		//    CGContextAddLineToPoint(context, 150, 120);
+		//    CGContextAddLineToPoint(context, 150, 180);
 	
-    // 画线方式 2
-    CGPoint apoint[3];
-    apoint[0] = CGPointMake(100, 120);
-    apoint[1] = CGPointMake(150, 120);
-    apoint[2] = CGPointMake(150, 180);
-    CGContextAddLines(context, apoint, 3);
+    	// 画线方式 2
+    	CGPoint apoint[3];
+    	apoint[0] = CGPointMake(100, 120);
+    	apoint[1] = CGPointMake(150, 120);
+    	apoint[2] = CGPointMake(150, 180);
+    	CGContextAddLines(context, apoint, 3);
     
-    //闭合路径
-    CGContextClosePath(context);
+    	//闭合路径
+    	CGContextClosePath(context);
     
-	CGContextDrawPath(context, kCGPathFillStroke);
+		CGContextDrawPath(context, kCGPathFillStroke);
 	}
+	
+	@end
 
 效果:
 ![直线](http://oaldigvho.bkt.clouddn.com/paper1.2.png)
