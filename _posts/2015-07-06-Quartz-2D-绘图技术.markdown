@@ -319,3 +319,144 @@ comments: true
 
 效果:
 ![文字](http://oaldigvho.bkt.clouddn.com/paper1.6.png)
+
+<br>
+
+##### 4.6 绘制一张图片
+
+	#import "BJView.h"
+	
+	@implementation BJView
+
+	- (void)drawRect:(CGRect)rect {
+    
+    	//获取图形上下文
+    	CGContextRef context = UIGraphicsGetCurrentContext();
+    
+    	UIImage * img = [UIImage imageNamed:@"bradleyJohnson.jpg"];
+    	
+    	// 在指定的范围内绘制图片，有可能引起图片拉伸
+    	[img drawInRect:rect];
+    
+		CGContextDrawPath(context, kCGPathFillStroke);
+	}
+	
+	@end
+
+效果:
+![图片](http://oaldigvho.bkt.clouddn.com/paper1.7.png)
+
+***
+
+
+#### 5.绘制 - 贝塞尔曲线绘制
+&nbsp;&nbsp;&nbsp;&nbsp;贝塞尔曲线，使用UIBezierPath类可以创建基于矢量的路径，这个类在UIKit中。它基本可以实现我们上面利用图形上下文做到的功能。
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;例如：<br>
+
+	#import "BJView.h"
+	
+	@implementation BJView
+
+	- (void)drawRect:(CGRect)rect {
+    
+    	[[UIColor redColor] setStroke];    
+    
+    	UIBezierPath * path = [UIBezierPath bezierPath];
+    	path.lineWidth = 2.0;
+    	path.lineCapStyle = kCGLineCapRound;
+    	path.lineJoinStyle = kCGLineJoinBevel;
+    
+    	[path moveToPoint:CGPointMake(10, 20)];
+    	[path addLineToPoint:CGPointMake(50, 20)];
+    
+    	[path closePath];
+    
+    	[path stroke];
+	}
+	
+	@end
+
+这就可以轻易的绘制出一条直线，效果如图：
+![贝塞尔](http://oaldigvho.bkt.clouddn.com/paper1.8.png)
+<br><br>
+同样的，我们也可以轻易的绘制出三角形、矩形、椭圆（圆）、圆弧如下：
+<br>
+	
+	#import "BJView.h"
+	#define arc(angle) ((angle)*(M_PI/180.0))
+
+	@implementation BJView
+
+	- (void)drawRect:(CGRect)rect {
+    
+    	/* 三角形 */
+    	[[UIColor redColor] setStroke];
+    
+    	UIBezierPath * path = [UIBezierPath bezierPath];
+    	path.lineWidth = 2.0;
+    	path.lineCapStyle = kCGLineCapRound;
+    	path.lineJoinStyle = kCGLineJoinBevel;
+    
+    	[path moveToPoint:CGPointMake(10, 20)];
+    	[path addLineToPoint:CGPointMake(50, 20)];
+    	[path addLineToPoint:CGPointMake(50, 60)];
+    
+    	[path closePath];
+    
+    	[path stroke];
+    	
+    	/* 圆弧 */
+    	[[UIColor redColor] setStroke];
+    
+    	UIBezierPath *path = [UIBezierPath bezierPathWithArcCenter:CGPointMake(100,100) radius:100 startAngle:0 endAngle:arc(135) clockwise:YES];
+        
+    	[path stroke];
+    	
+    	/* 矩形 */
+    	[[UIColor redColor] setStroke];
+    
+    	UIBezierPath *path = [UIBezierPath bezierPathWithRect:CGRectMake(20, 20, 100, 100)];
+        
+    	[path stroke];
+    	
+    	/* 椭圆（圆） */
+    	[[UIColor redColor] setStroke];
+    
+    	UIBezierPath *path = [UIBezierPath bezierPathWithOvalInRect:CGRectMake(20, 20, 100, 100)];
+        
+    	[path stroke];
+	}
+	
+	@end
+
+当然最经典的就是，我们可以绘制二次和三次的贝塞尔曲线：
+
+	
+	#import "BJView.h"
+	
+	@implementation BJView
+
+	- (void)drawRect:(CGRect)rect {
+    	
+    	[[UIColor redColor] setStroke];
+    
+    	UIBezierPath *path = [UIBezierPath bezierPath];
+    
+    	[path moveToPoint:CGPointMake(20, 100)];
+    
+    	// 绘制二次贝塞尔曲线
+		//    [path addQuadCurveToPoint:CGPointMake(120, 100) controlPoint:CGPointMake(70, 150)];
+    	
+    	// 绘制三次贝塞尔曲线
+    	[path addCurveToPoint:CGPointMake(120, 100) controlPoint1:CGPointMake(45, 150) controlPoint2:CGPointMake(95, 50)];
+
+    
+    	[path stroke];
+	}
+	
+	@end
+	
+
+效果如下：
+![贝塞尔多次](http://oaldigvho.bkt.clouddn.com/paper1.9.png)
