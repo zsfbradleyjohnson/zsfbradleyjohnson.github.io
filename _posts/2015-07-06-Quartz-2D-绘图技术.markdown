@@ -439,5 +439,7 @@ comments: true
 <br>
 <br>
 如果你想要看到源码，可以到我的github上下载使用：[Demo](https://github.com/zsfbradleyjohnson/Quartz2D)。
+
 ***
+
 如果你喜欢我的文章，请不要吝啬你的喜欢和关注，这是我的[简书](http://www.jianshu.com/users/91577acf333a/latest_articles).
