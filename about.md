@@ -5,9 +5,11 @@ permalink: /about/
 slug: about
 ---
 
-This is johnson blog. You can find out more information about iOS development technology.
+这里是 Johnson 的Blog，你可以找到很多关于iOS的研发技术文章，不一定准确，希望能与你交流。
 
-You can find the source code in [my github]({{ site.author.github }})
+你能找到这些文章的源码 [my github]({{ site.author.github }})
 
-Blog developed by: [{{ site.author.name }}]({{ site.author.url }})
+### 下面是一些文章的目录:
+
+***
 
