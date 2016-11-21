@@ -5,11 +5,11 @@ permalink: /author/
 slug: author
 ---
 
->周深发（Bradley Johnson），24岁，广东海洋大学，前全民尚网科技有限公司iOS研发工程师，主要从事iOS方面的研发工作。
+>周深发（ Bradley Johnson ），24岁，广东海洋大学，前全民尚网科技有限公司 iOS研发工程师，主要从事 iOS 方面的研发工作。
 
->自学过python，并应用其写过[落网音乐](http://www.luoo.net/)和[煎蛋网](http://jandan.net/)的数据爬取。
+>自学过 Python，并应用其写过[落网音乐](http://www.luoo.net/)和[煎蛋网](http://jandan.net/)的数据爬取。
 
->自学过HTML、CSS、JavaScript，能够看懂基本网页源码标签、style布局样式和简单的JavaScript原生代码，但并未将其实际应用到项目中。
+>自学过 HTML、CSS、JavaScript，能够看懂基本网页源码标签、style 布局样式和简单的 JavaScript 原生代码，但并未将其实际应用到项目中。
 
 >目前是离职待业状态，如果有可以合作的机会，希望您能联系我，这是我的邮箱(zsfbradleyjohnson@126.com)。
 
