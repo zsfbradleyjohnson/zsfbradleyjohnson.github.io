@@ -284,35 +284,13 @@ comments: true
 	@implementation BJView
 
 	- (void)drawRect:(CGRect)rect {
-    
-    	//获取图形上下文
-    	CGContextRef context = UIGraphicsGetCurrentContext();
-    
-    	//设置边框颜色
-    	CGContextSetRGBStrokeColor(context, 1, 0, 0, 1);
-    
-    	//设置填充颜色
-    	CGContextSetRGBFillColor(context, 0, 1, 0, 1);
-    
-    	//设置线条宽度
-    	CGContextSetLineWidth(context, 2.f);
-    
-    	//设置线条起点和终点的样式
-    	//    CGContextSetLineCap(context, kCGLineCapRound);
-    
-    	//设置线条的转角的样式
-    	//    CGContextSetLineJoin(context, kCGLineJoinRound);
-    	    
+
     	NSString * str = @"BradleyJohnson";
     	NSMutableDictionary * attributes = [NSMutableDictionary dictionary];
     	attributes[NSFontAttributeName] = [UIFont systemFontOfSize:20];    		attributes[NSForegroundColorAttributeName] = [UIColor purpleColor];
     	attributes[NSBackgroundColorAttributeName] = [UIColor whiteColor];
     	[str drawInRect:CGRectMake(100, 100, 200, 30) withAttributes:attributes];
-    
-    	//闭合路径
-    	//    CGContextClosePath(context);
-    
-		CGContextDrawPath(context, kCGPathFillStroke);
+
 	}
 	
 	@end
@@ -329,16 +307,11 @@ comments: true
 	@implementation BJView
 
 	- (void)drawRect:(CGRect)rect {
-    
-    	//获取图形上下文
-    	CGContextRef context = UIGraphicsGetCurrentContext();
-    
+
     	UIImage * img = [UIImage imageNamed:@"bradleyJohnson.jpg"];
     	
     	// 在指定的范围内绘制图片，有可能引起图片拉伸
     	[img drawInRect:rect];
-    
-		CGContextDrawPath(context, kCGPathFillStroke);
 	}
 	
 	@end
