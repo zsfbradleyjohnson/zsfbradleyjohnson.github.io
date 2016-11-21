@@ -12,3 +12,5 @@ slug: about
 ***
 
 ### 下面是一些文章的目录:
+
+[Quartz 2D 绘图技术](http://zsfbradleyjohnson.com/Quartz-2D-%E7%BB%98%E5%9B%BE%E6%8A%80%E6%9C%AF/)
