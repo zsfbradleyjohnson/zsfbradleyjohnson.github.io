@@ -9,8 +9,10 @@ comments: true
 > &nbsp;&nbsp;&nbsp;&nbsp;Quartz 2D。是 iOS 和 Mac OS X 环境下的2D绘图引擎。Quartz 2D 也被称为 Core Graphics，缩写前缀为CG，Quartz 2D 与 Quartz Compositor 统称为 Quartz，Quartz 原本是 Mac OS X 的 Darwin 核心之上的绘图技术。它的 API 接口都是基于 C 的。
 
 <br><br>
+
 #### 1.绘制原理
 &nbsp;&nbsp;&nbsp;&nbsp;摆事实，讲道理。在 iOS 中，所有的绘制都离不开 UIView ，绘制都发生在 UIView 对象区域内。在绘制发生的时候，如果是使用的系统提供的视图，则绘制工作会自动发生。若不是，则我们需要重写 `drawRect:` 方法，在此方法中提供相应的绘制代码。
+
 <br><br>
 
 #### 2.绘制周期
