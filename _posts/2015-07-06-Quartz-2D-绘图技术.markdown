@@ -54,11 +54,11 @@ comments: true
     	CGContextSetLineJoin(context, kCGLineJoinRound);
 
     
-    	// 画线方式 1
+    	// 绘制线方式 1
 		//    CGContextMoveToPoint(context, 100, 120);
 		//    CGContextAddLineToPoint(context, 150, 120);
 	    
-    	// 画线方式 2
+    	// 绘制线方式 2
     	CGPoint apoint[2];
     	apoint[0] = CGPointMake(100, 120);
     	apoint[1] = CGPointMake(150, 120);
@@ -77,7 +77,7 @@ comments: true
 
 <br>
 
-##### 4.2 绘制一条折线（闭合且填充内容）
+##### 4.2 绘制一条折线（闭合且填充内容,相当于三角形）
 
 	#import "BJView.h"
 
@@ -104,12 +104,12 @@ comments: true
     	CGContextSetLineJoin(context, kCGLineJoinRound);
 
     
-    	// 画线方式 1
+    	// 绘制线方式 1
 		//    CGContextMoveToPoint(context, 100, 120);
 		//    CGContextAddLineToPoint(context, 150, 120);
 		//    CGContextAddLineToPoint(context, 150, 180);
 	
-    	// 画线方式 2
+    	// 绘制线方式 2
     	CGPoint apoint[3];
     	apoint[0] = CGPointMake(100, 120);
     	apoint[1] = CGPointMake(150, 120);
@@ -125,4 +125,150 @@ comments: true
 	@end
 
 效果:
-![直线](http://oaldigvho.bkt.clouddn.com/paper1.2.png)
+![折线](http://oaldigvho.bkt.clouddn.com/paper1.2.png)
+
+<br>
+
+##### 4.3 绘制一个矩形
+
+	#import "BJView.h"
+
+	@implementation BJView
+
+	- (void)drawRect:(CGRect)rect {
+    
+    	//获取图形上下文
+    	CGContextRef context = UIGraphicsGetCurrentContext();
+    
+    	//设置边框颜色
+    	CGContextSetRGBStrokeColor(context, 1, 0, 0, 1);
+    
+    	//设置填充颜色
+    	CGContextSetRGBFillColor(context, 0, 1, 0, 1);
+    
+    	//设置线条宽度
+    	CGContextSetLineWidth(context, 2.f);
+    
+    	//设置线条起点和终点的样式
+    	//    CGContextSetLineCap(context, kCGLineCapRound);
+    
+    	//设置线条的转角的样式
+    	CGContextSetLineJoin(context, kCGLineJoinRound);
+
+    	// 通过绘制线的方式 1
+		//    CGContextMoveToPoint(context, 100, 100);
+		//    CGContextAddLineToPoint(context, 150, 100);
+		//    CGContextAddLineToPoint(context, 150, 150);
+		//    CGContextAddLineToPoint(context, 100, 150);
+
+    	// 通过绘制线的方式 2
+		//    CGPoint apoint[4];
+		//    apoint[0] = CGPointMake(100, 100);
+		//    apoint[1] = CGPointMake(150, 100);
+		//    apoint[2] = CGPointMake(150, 150);
+		//    apoint[3] = CGPointMake(100, 150);
+		//    CGContextAddLines(context, apoint, 4);
+    
+    	// 绘制矩形方法
+    	CGContextAddRect(context, CGRectMake(100, 100, 50, 50));
+    
+    	//闭合路径
+    	//    CGContextClosePath(context);
+    
+		CGContextDrawPath(context, kCGPathFillStroke);
+	}
+	
+	@end
+
+效果:
+![矩形](http://oaldigvho.bkt.clouddn.com/paper1.3.png)
+
+<br>
+
+##### 4.4 绘制一个圆（椭圆的特殊形态）
+
+	#import "BJView.h"
+
+	@implementation BJView
+
+	- (void)drawRect:(CGRect)rect {
+    
+    	//获取图形上下文
+    	CGContextRef context = UIGraphicsGetCurrentContext();
+    
+    	//设置边框颜色
+    	CGContextSetRGBStrokeColor(context, 1, 0, 0, 1);
+    
+    	//设置填充颜色
+    	CGContextSetRGBFillColor(context, 0, 1, 0, 1);
+    
+    	//设置线条宽度
+    	CGContextSetLineWidth(context, 2.f);
+    
+    	//设置线条起点和终点的样式
+    	//    CGContextSetLineCap(context, kCGLineCapRound);
+    
+    	//设置线条的转角的样式
+    	//    CGContextSetLineJoin(context, kCGLineJoinRound);
+    	    
+    	// 绘制圆方法(其实所绘制的圆为所绘制用的Rect的矩形的内切圆，当宽度等于高度时，即为正圆)
+    	CGContextAddEllipseInRect(context, CGRectMake(100, 100, 200, 100));
+    
+    	//闭合路径
+    	//    CGContextClosePath(context);
+    
+		CGContextDrawPath(context, kCGPathFillStroke);
+	}
+	
+	@end
+
+效果:
+![圆](http://oaldigvho.bkt.clouddn.com/paper1.4.png)
+
+<br>
+
+##### 4.4 绘制一段圆弧（闭合且填充内容,相当于扇形）
+
+	#import "BJView.h"
+	
+	#define arc(angle) ((angle)*(M_PI/180.0))
+
+	@implementation BJView
+
+	- (void)drawRect:(CGRect)rect {
+    
+    	//获取图形上下文
+    	CGContextRef context = UIGraphicsGetCurrentContext();
+    
+    	//设置边框颜色
+    	CGContextSetRGBStrokeColor(context, 1, 0, 0, 1);
+    
+    	//设置填充颜色
+    	CGContextSetRGBFillColor(context, 0, 1, 0, 1);
+    
+    	//设置线条宽度
+    	CGContextSetLineWidth(context, 2.f);
+    
+    	//设置线条起点和终点的样式
+    	CGContextSetLineCap(context, kCGLineCapRound);
+    
+    	//设置线条的转角的样式
+    	//    CGContextSetLineJoin(context, kCGLineJoinRound);
+    	    
+    	// 绘制圆弧方法1 (参数由左至右分别是，图形上下文、圆心x、圆心y、半径、起始弧度、结束弧度、圆弧伸展的方向（0为顺时针，1为逆时针）)
+    	CGContextAddArc(context, 150, 100, 100, arc(0), arc(160), 0);
+
+		// 绘制圆弧方法2，由起始点、结束点分别与中间节点连线，同时以半径切过这两边则确定一段圆弧(不建议使用，因为理解不方便)
+    	// CGContextMoveToPoint(context, 100, 100);
+    	// CGContextAddArcToPoint(context, 150, 100, 150, 150, 50);
+    
+    	//闭合路径
+    	CGContextClosePath(context);
+    
+		CGContextDrawPath(context, kCGPathFillStroke);
+	}
+	
+	@end
+
+效果:
+![圆弧](http://oaldigvho.bkt.clouddn.com/paper1.5.png)
