@@ -8,14 +8,107 @@ comments: true
 
 > &nbsp;&nbsp;&nbsp;&nbsp;Quartz 2D。是 iOS 和 Mac OS X 环境下的2D绘图引擎。Quartz 2D 也被称为 Core Graphics，缩写前缀为CG，Quartz 2D 与 Quartz Compositor 统称为 Quartz，Quartz 原本是 Mac OS X 的 Darwin 核心之上的绘图技术。它的 API 接口都是基于 C 的。
 
-<br><br>
+<br>
 
 #### 1.绘制原理
 &nbsp;&nbsp;&nbsp;&nbsp;摆事实，讲道理。在 iOS 中，所有的绘制都离不开 UIView ，绘制都发生在 UIView 对象区域内。在绘制发生的时候，如果是使用的系统提供的视图，则绘制工作会自动发生。若不是，则我们需要重写 `drawRect:` 方法，在此方法中提供相应的绘制代码。
 
-<br><br>
+<br>
 
 #### 2.绘制周期
 &nbsp;&nbsp;&nbsp;&nbsp;通常我们会设置一个标志，在每一轮的事件中扫描标志，看是否需要重新绘制，如果需要我们则调用 `drawRect:` 方法进行绘制。于是我们除了 `drawRect:` ，还有 `setNeedsDisplay` 和 `setNeedsDisplayInRect:` 方法供我们使用。他们分别的作用如下：<br>
 `setNeedsDisplay`:设置整个视图重新绘制。<br>
-`setNeedsDisplayInRect:`:设置部分区域的视图重新绘制。<br>
+`setNeedsDisplayInRect:`:设置部分区域的视图重新绘制。
+
+<br>
+
+#### 3.绘制 - Quartz 图形上下文
+&nbsp;&nbsp;&nbsp;&nbsp;Quartz 图形上下文是包含绘制系统执行后，绘制命令所需要的信息，定义了各种基本的绘制参数，比如绘制使用的颜色、裁剪区域、线段的宽度及风格信息、文体信息、合成选项以及几个其他信息。<br>
+&nbsp;&nbsp;&nbsp;&nbsp;在调用 `drawRect:` 方法之前，视图对象会自动配置其绘制环境使代码能够立即执行进行绘制。作为这些配置的一部分，UIView 对象会为当前绘制环境创建一个图形上下文（对应于 CGContextRef 封装类型）。我们可以在 `drawRect:` 方法中通过  `UIGraphicsGetCurrentContext()`来获取和访问图形上下问对象，再对当前的图形进行定制的绘制。
+
+<br>
+
+#### 4.绘制 - 具体实现
+##### 4.1 绘制一条直线
+
+	- (void)drawRect:(CGRect)rect {
+    
+    //获取图形上下文
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    
+    //设置线条颜色
+    CGContextSetRGBStrokeColor(context, 1, 0, 0, 1);
+    
+    //设置线条宽度
+    CGContextSetLineWidth(context, 2.f);
+    
+    //设置线条起点和终点的样式
+    CGContextSetLineCap(context, kCGLineCapRound);
+    
+    //设置线条的转角的样式
+    CGContextSetLineJoin(context, kCGLineJoinRound);
+
+    
+    // 画线方式 1
+	//    CGContextMoveToPoint(context, 100, 120);
+	//    CGContextAddLineToPoint(context, 150, 120);
+	    
+    // 画线方式 2
+    CGPoint apoint[2];
+    apoint[0] = CGPointMake(100, 120);
+    apoint[1] = CGPointMake(150, 120);
+    CGContextAddLines(context, apoint, 2);
+    
+    //是否闭合路径
+    //    CGContextClosePath(context);
+    
+    CGContextDrawPath(context, kCGPathFillStroke);
+	}
+
+效果:
+![直线](http://oaldigvho.bkt.clouddn.com/paper1.1.png)
+
+<br>
+##### 4.2 绘制一条折线（闭合且填充内容）
+
+	- (void)drawRect:(CGRect)rect {
+    
+    //获取图形上下文
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    
+    //设置边框颜色
+    CGContextSetRGBStrokeColor(context, 1, 0, 0, 1);
+    
+    //设置填充颜色
+    CGContextSetRGBFillColor(context, 0, 1, 0, 1);
+    
+    //设置线条宽度
+    CGContextSetLineWidth(context, 2.f);
+    
+    //设置线条起点和终点的样式
+    CGContextSetLineCap(context, kCGLineCapRound);
+    
+    //设置线条的转角的样式
+    CGContextSetLineJoin(context, kCGLineJoinRound);
+
+    
+    // 画线方式 1
+	//    CGContextMoveToPoint(context, 100, 120);
+	//    CGContextAddLineToPoint(context, 150, 120);
+	//    CGContextAddLineToPoint(context, 150, 180);
+	
+    // 画线方式 2
+    CGPoint apoint[3];
+    apoint[0] = CGPointMake(100, 120);
+    apoint[1] = CGPointMake(150, 120);
+    apoint[2] = CGPointMake(150, 180);
+    CGContextAddLines(context, apoint, 3);
+    
+    //闭合路径
+    CGContextClosePath(context);
+    
+	CGContextDrawPath(context, kCGPathFillStroke);
+	}
+
+效果:
+![直线](http://oaldigvho.bkt.clouddn.com/paper1.2.png)
