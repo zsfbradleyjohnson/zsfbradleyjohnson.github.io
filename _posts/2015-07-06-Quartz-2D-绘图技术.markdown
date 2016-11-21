@@ -29,6 +29,7 @@ comments: true
 <br>
 
 #### 4.绘制 - 具体实现
+
 ##### 4.1 绘制一条直线
 
 	#import "BJView.h"
@@ -75,6 +76,7 @@ comments: true
 ![直线](http://oaldigvho.bkt.clouddn.com/paper1.1.png)
 
 <br>
+
 ##### 4.2 绘制一条折线（闭合且填充内容）
 
 	#import "BJView.h"
