@@ -9,6 +9,8 @@ slug: about
 
 你能找到这些文章的源码 [my github]({{ site.author.github }})
 
+***
+
 ### 下面是一些文章的目录:
 
 ***
