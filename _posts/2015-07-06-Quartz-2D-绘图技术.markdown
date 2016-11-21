@@ -31,6 +31,8 @@ comments: true
 #### 4.绘制 - 具体实现
 ##### 4.1 绘制一条直线
 
+	#import "BJView.h"
+
 	- (void)drawRect:(CGRect)rect {
     
     //获取图形上下文
