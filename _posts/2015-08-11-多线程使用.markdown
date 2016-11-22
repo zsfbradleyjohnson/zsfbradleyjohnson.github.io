@@ -7,8 +7,7 @@ comments: true
 ---
 > &nbsp;&nbsp;&nbsp;&nbsp;具有多线程能力的计算机因有硬件支持而能够在同一时间执行多于一个线程，进而提升整体处理性能。 在一个程序中，这些独立运行的程序片段叫作“线程”（Thread），利用它编程的概念就叫作“多线程处理（Multithreading）”。具有多线程能力的计算机因有硬件支持而能够在同一时间执行多于一个线程，进而提升整体处理性能。
 
-<br>
-
+<br><br>
 #### 1.多线程在iOS上的实现途径
 &nbsp;&nbsp;&nbsp;&nbsp;在iOS上，我们常见的多线程有三种： `NSThread`、 `NSOperation`、 `GCD`。他们常见的优缺点分别如下：
 <br>
@@ -27,7 +26,7 @@ comments: true
 <br>
 
 #### 2.多线程使用- `NSThread`
-&nbsp;&nbsp;&nbsp;&nbsp;`NSThread`这套方案是经过苹果封装后的，并且完全面向对象的。你可以直接操控线程对象，十分的直观和方便。但是，它的生命周期还是需要我们手动管理，所以这套方案不太，但是其中的某些方法例如 `[NSThread currentThread]`，它可以获取当前线程类，你就可以知道当前线程的各种属性，用于调试十分方便。下面我们来具体写一写代码:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;`NSThread`这套方案是经过苹果封装后的，并且完全面向对象的。你可以直接操控线程对象，十分的直观和方便。但是，它的生命周期还是需要我们手动管理，所以这套方案不太常用。但是其中的某些方法例如 `[NSThread currentThread]`，它可以获取当前线程类，你就可以知道当前线程的各种属性，用于调试十分方便。下面我们来具体写一写代码:<br>
 
 &nbsp;&nbsp;&nbsp;&nbsp;在创建上，我们一共有3种方式。
 
@@ -119,7 +118,7 @@ comments: true
         	// 休眠两秒
         	[NSThread sleepForTimeInterval:2];
         	
-        	// 跳回主线程刷新 UI
+        	// 跳回主线程刷新 UI （线程间通讯就发生在这里）
         	[self performSelectorOnMainThread:@selector(reloadUI:) withObject:data waitUntilDone:NO];
     	}
 	}
