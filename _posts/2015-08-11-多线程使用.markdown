@@ -38,7 +38,7 @@ comments: true
 	@implementation NSThreadViewController
 
 	- (void)viewDidLoad {
-    	[super viewDidLoad];
+    [super viewDidLoad];
     	// 线程创建，执行 Target 的 selector 方法，并传入 object 参数
     	NSThread * thread = [[NSThread alloc] initWithTarget:self selector:@selector(waitForRun:) object:params];
     	
