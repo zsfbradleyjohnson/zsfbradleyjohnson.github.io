@@ -15,11 +15,155 @@ comments: true
 <br>
 `NSThread`: 更为轻量级。但是需要自己管理线程的生命周期，线程同步。线程同步对数据的加锁会有一定的系统开销。
 <br><br>
-`NSOperation `: 不需要关心线程管理，数据同步的事情，可以把精力放在自己需要执行的操作上。但是它是抽象类，使用它必须用它的子类，可以实现它或者使用它定义好的两个子类：`NSInvocationOperation` 和 `NSBlockOperation`。
+`NSOperation`: 不需要关心线程管理，数据同步的事情，可以把精力放在自己需要执行的操作上。但是它是抽象类，使用它必须用它的子类，可以实现它或者使用它定义好的两个子类：`NSInvocationOperation` 和 `NSBlockOperation`。
 <br><br>
-`GCD `: 它会自动管理线程的生命周期（创建线程、调度任务、销毁线程），完全不需要我们管理，我们只需要告诉干什么就行。而且它使用了较多的Block，更加的灵活方便。但是它是基于C语言封装的，所以在可读性和理解性上没有那么便捷。
+`GCD`: 它会自动管理线程的生命周期（创建线程、调度任务、销毁线程），完全不需要我们管理，我们只需要告诉干什么就行。而且它使用了较多的Block，更加的灵活方便。但是它是基于C语言封装的，所以在可读性和理解性上没有那么便捷。
+
+<br>
+其实还有一种 `Pthreads` 的多线程技术，它是在类Unix操作系统（Unix、Linux、Mac OS X等）中，都使用Pthreads作为操作系统的线程。简单地说，这是一套在很多操作系统上都通用的多线程API，移植性很强，当然在 iOS 中也是可以的。
+<br>
+也因为它在iOS上的使用几乎为零，所以我们也就忽略它不谈，这里作为了解一下知道即可。
+
+<br>
+
+#### 2.多线程使用- `NSThread`
+&nbsp;&nbsp;&nbsp;&nbsp;`NSThread`这套方案是经过苹果封装后的，并且完全面向对象的。你可以直接操控线程对象，十分的直观和方便。但是，它的生命周期还是需要我们手动管理，所以这套方案不太，但是其中的某些方法例如 `[NSThread currentThread]`，它可以获取当前线程类，你就可以知道当前线程的各种属性，用于调试十分方便。下面我们来具体写一写代码:<br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;在创建上，我们一共有3种方式。
+
+1.
+
+	#import "NSThreadViewController.h"
+	
+	@implementation NSThreadViewController
+
+	- (void)viewDidLoad {
+    	[super viewDidLoad];
+    	// 线程创建，执行 Target 的 selector 方法，并传入 object 参数
+    	NSThread * thread = [[NSThread alloc] initWithTarget:self selector:@selector(waitForRun:) object:params];
+    	
+    	// 声明线程优先级
+    	thread.threadPriority = 1.0;
+    	// 为线程命名，便于区分
+    	thread.name = @"ThreadTwo";
+    	// 启动线程
+    	[thread start];
+	}
+	@end
+
+2.
+
+	#import "NSThreadViewController.h"
+	
+	@implementation NSThreadViewController
+
+	- (void)viewDidLoad {
+    	[super viewDidLoad];
+    	
+    	// 线程创建后立刻执行，执行 Target 的 selector 方法，并传入 object 参数
+    	[NSThread detachNewThreadSelector:self toTarget:@selector(waitForRun:) withObject:params];
+	}
+	@end
+
+3.
+
+	#import "NSThreadViewController.h"
+	
+	@implementation NSThreadViewController
+
+	- (void)viewDidLoad {
+    	[super viewDidLoad];
+    	
+    	// 线程隐式创建后立刻执行，执行 self 的 selector 方法，并传入 object 参数
+    	[self performSelector:@selector(waitForRun:) withObject:params];
+
+	}
+	@end
+
+
+下面，我们用`NSThread`写一个经典的异步线程下载图片数据，再回到主线程刷新UI的小Demo：
+
+	#import "NSThreadViewController.h"
+	
+	#define ImgUrl @"http://oaldigvho.bkt.clouddn.com/bradleyJohnson.jpg"
+	
+	@interface NSThreadViewController ()
+
+	@property (nonatomic , strong) UIImageView * imgView;
+
+	@end
+	
+	@implementation NSThreadViewController
+
+	- (void)viewDidLoad {
+    	[super viewDidLoad];
+    	
+    	self.imgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 100, self.view.bounds.size.width, self.view.bounds.size.height-200)];
+    	self.imgView.backgroundColor = [UIColor lightGrayColor];
+    	[self.view addSubview:self.imgView];
+    
+    	NSThread * thread = [[NSThread alloc] initWithTarget:self selector:@selector(downLoadImageData:) object:ImgUrl];
+    	thread.name = @"downloadData";
+    	[thread start];
+    	
+    	NSLog(@"Main thread : %@",[NSThread currentThread]);
+	}
+
+	-(void)downLoadImageData:(NSString *)url
+	{
+    	NSData * data = [NSData dataWithContentsOfURL:[NSURL URLWithString:url]];
+    
+    	if (data) {
+    		
+        	NSLog(@"Ready for data thread : %@",[NSThread currentThread]);
+        	// 休眠两秒
+        	[NSThread sleepForTimeInterval:2];
+        	
+        	// 跳回主线程刷新 UI
+        	[self performSelectorOnMainThread:@selector(reloadUI:) withObject:data waitUntilDone:NO];
+    	}
+	}
+
+	-(void)reloadUI:(NSData *)data
+	{
+		NSLog(@"Reload UI thread : %@",[NSThread currentThread]);
+		    
+    	self.imgView.image = [UIImage imageWithData:data];
+	}
+	
+	@end
+
+效果如图：
+<br><br>
+![下载图片](http://oaldigvho.bkt.clouddn.com/2.1-g.gif)
 
 <br><br>
-其实还有一种 `Pthreads` 的多线程技术，它是在类Unix操作系统（Unix、Linux、Mac OS X等）中，都使用Pthreads作为操作系统的线程。简单地说，这是一套在很多操作系统上都通用的多线程API，所以移植性很强（然并卵），当然在 iOS 中也是可以的。
+而我们看我们的控制台的输出，很明显能看到我们是在不同的线程中进行数据交换:
+<br><br>
+![控制台](http://oaldigvho.bkt.clouddn.com/2.1.png)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <br>
-也因为它在iOS上的使用几乎为零，所以我们也就忽略它不谈。
+<br>
+<br>
+<br>
+如果你想要看到源码，可以到我的github上下载使用：[Demo](https://github.com/zsfbradleyjohnson/Quartz2D)。
+
+***
+
+如果你喜欢我的文章，请不要吝啬你的喜欢和关注，这是我的[简书](http://www.jianshu.com/users/91577acf333a/latest_articles).
