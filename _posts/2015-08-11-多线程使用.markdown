@@ -38,16 +38,16 @@ comments: true
 	@implementation NSThreadViewController
 
 	- (void)viewDidLoad {
-    [super viewDidLoad];
-    	// 线程创建，执行 Target 的 selector 方法，并传入 object 参数
-    	NSThread * thread = [[NSThread alloc] initWithTarget:self selector:@selector(waitForRun:) object:params];
+     [super viewDidLoad];
+     // 线程创建，执行 Target 的 selector 方法，并传入 object 参数
+     NSThread * thread = [[NSThread alloc] initWithTarget:self selector:@selector(waitForRun:) object:params];
     	
-    	// 声明线程优先级
-    	thread.threadPriority = 1.0;
-    	// 为线程命名，便于区分
-    	thread.name = @"ThreadTwo";
-    	// 启动线程
-    	[thread start];
+     // 声明线程优先级
+     thread.threadPriority = 1.0;
+     // 为线程命名，便于区分
+     thread.name = @"ThreadTwo";
+     // 启动线程
+     [thread start];
 	}
 	@end
 
