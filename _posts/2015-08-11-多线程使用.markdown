@@ -79,6 +79,11 @@ comments: true
 	}
 	@end
 
+而我们在线程之间，总是要进行通讯，常用的几种通讯方法有:<br>
+`- (void)performSelectorOnMainThread:(SEL)aSelector withObject:(nullable id)arg waitUntilDone:(BOOL)wait;`
+`- (void)performSelector:(SEL)aSelector onThread:(NSThread *)thr withObject:(nullable id)arg waitUntilDone:(BOOL)wait NS_AVAILABLE(10_5, 2_0);`
+
+<br>
 
 下面，我们用`NSThread`写一个经典的异步线程下载图片数据，再回到主线程刷新UI的小Demo：
 
@@ -141,7 +146,136 @@ comments: true
 <br><br>
 ![控制台](http://oaldigvho.bkt.clouddn.com/2.1.png)
 
+<br><br>
+#### 3.多线程使用- `NSOperation`及`NSOperationQueue`
 
+##### 3.1 `NSInvocationOperation`和`NSBlockOperation`
+&nbsp;&nbsp;&nbsp;&nbsp; `NSOperation` 是苹果公司对 `GCD` 的封装，完全面向对象，所以使用起来更好理解。 大家可以看到 `NSOperation` 和 `NSOperationQueue` 分别对应 `GCD` 的任务和队列 。操作步骤也很好理解：
+
+将要执行的任务封装到一个 `NSOperation` 对象中。<br>
+将此任务添加到一个 `NSOperationQueue` 对象中。<br>
+
+然后系统就会自动执行任务。
+
+值得注意的是，`NSOperation`是个抽象类无法直接使用，一般我们都会使用它的子类`NSInvocationOperation`和`NSBlockOperation`来创建任务对象，再对其调用`start`方法执行。
+
+	#import "NSThreadViewController.h"
+	
+	@implementation NSThreadViewController
+
+	- (void)viewDidLoad {
+    	[super viewDidLoad];
+    	// 任务创建，执行 Target 的 selector 方法，并传入 object 参数
+    	NSInvocationOperation * invocationOpe = [[NSInvocationOperation alloc] initWithTarget:target selector:@selector(waitFroRun:) object:params];
+    	
+    	// 启动任务
+    	[invocationOpe start];
+	}
+	@end
+
+但是，大家会发现，这是在当前线程执行的。所以为了并发执行，我们可以使用`NSBlockOperation`来创建和添加多任务，这样多任务就会在主线程和子线程中并发执行。
+	
+	#import "NSThreadViewController.h"
+	
+	@implementation NSThreadViewController
+
+	- (void)viewDidLoad {
+    	[super viewDidLoad];
+    	
+    	NSBlockOperation * blockOperation = [NSBlockOperation blockOperationWithBlock:^{
+        
+        	//do something
+        
+    	}];
+    
+    	// 添加其它任务进来
+    	[blockOperation addExecutionBlock:^{
+        
+        	// add another block
+        
+    	}];
+    
+    	[blockOperation start];
+	}
+	@end
+（注意：`addExecutionBlock`方法必须在`start`方法之前执行，不然会引起崩溃。）
+<br>
+<br>
+
+当然了，除了上面的两种 `Operation` 以外，我们还可以自定义 `Operation`。自定义 `Operation` 需要继承 `NSOperation` 类，并实现其 `main` 方法，因为在调用 `start` 方法的时候，内部会调用 `main` 方法完成相关逻辑。所以如果以上的两个类无法满足你的欲望的时候，你就需要自定义了。你想要实现什么功能都可以写在里面。除此之外，你还需要实现 `cancel` 在内的各种方法。比较麻烦，如果有需要定制的朋友，可以自行研究一下。
+
+##### 3.2 `NSOperationQueue`
+&nbsp;&nbsp;&nbsp;&nbsp; 到这里，我们已经实现了任务的并发，但是如果我还是希望所有的任务都做子线程中进行，丝毫不影响我的主线程，那该怎么做呢？这里，就涉及到了`NSOperationQueue`的使用了。<br>
+&nbsp;&nbsp;&nbsp;&nbsp; 在`NSOperationQueue`中，线程只有两种，主线程和其它线程，主线程我们可以通过 `[NSOperationQueue mainQueue]` 获取到，而所有通过创建获得的线程，统统都是子线程。
+
+	#import "NSThreadViewController.h"
+	
+	@implementation NSThreadViewController
+
+	- (void)viewDidLoad {
+    	[super viewDidLoad];
+    	
+    	 NSBlockOperation * blockOperation = [NSBlockOperation blockOperationWithBlock:^{
+        
+        	//do something
+        
+    	}];
+    
+    	// 添加其它任务进来
+    	[blockOperation addExecutionBlock:^{
+        
+        	// add another block
+        
+    	}];
+    
+    	NSInvocationOperation * invocationOperation = [[NSInvocationOperation alloc] initWithTarget:target selector:@selector(waitForRun:) object:params];
+    	
+    	// 创建队列（其它队列），队列中的所以任务都是并发进行 ，如果希望是串行，则将maxConcurrentOperationCount 最大并发数量 设置为1
+    	NSOperationQueue * queue = [[NSOperationQueue alloc] init];
+    	//        queue.maxConcurrentOperationCount = 1;
+    	[queue addOperation:blockOperation];
+    	[queue addOperation:invocationOperation];
+	}
+	@end
+
+而且`NSOperation`有一个十分实用的功能，就是任务之间添加依赖，当然也可以解除依赖。也就是说，如果A任务的进行必须建立在B任务的完成之上的话，我们可以用`addDependency`来将A任务依赖给B任务：<br>
+
+	#import "NSThreadViewController.h"
+	
+	@implementation NSThreadViewController
+
+	- (void)viewDidLoad {
+    	[super viewDidLoad];
+    	
+    	 NSBlockOperation * blockOperationOne = [NSBlockOperation blockOperationWithBlock:^{
+        
+        	//do something
+        
+    	}];
+    
+    	NSBlockOperation * blockOperationTwo = [NSBlockOperation blockOperationWithBlock:^{
+        
+        	//do something
+        
+    	}];
+    
+    	NSBlockOperation * blockOperationThree = [NSBlockOperation blockOperationWithBlock:^{
+        
+        	//do something
+        
+    	}];
+    
+    	// 添加依赖
+    	[blockOperationTwo addDependency:blockOperationOne];
+    	[blockOperationThree addDependency:blockOperationTwo];
+    
+    	// 解除依赖
+		//    [blockOperationThree removeDependency:blockOperationTwo];
+    
+    	NSOperationQueue * queue = [[NSOperationQueue alloc] init];
+    	[queue addOperations:@[blockOperationOne,blockOperationTwo,blockOperationThree] waitUntilFinished:NO];
+    }
+	@end
 
 
 
