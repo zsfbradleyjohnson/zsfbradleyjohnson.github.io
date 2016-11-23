@@ -547,14 +547,6 @@ comments: true
 
 	@end
 
-
-
-```
-    Developer * develop = [Developer new];
-    develop.name = @"BradleyJohnson";
-    develop.age  = 24;
-```
-
 ***
 
 下面是一个通过`NSLock`加锁的抢票Demo，分别通过`NSThread`、`NSOperation`、`GCD`实现的Demo。具体代码不贴了，需要的可以去👇的Github上下载来看看。
