@@ -1,29 +1,9 @@
-# Site settings
-title: Johnson
-email: zsfbradleyjohnson@126.com
-description:
-baseurl: ""
-url: "http://www.zsfbradleyjohnson.com"
-
-author:
-  name     : 'Bradley Johnson'
-  email    : zsfbradleyjohnson@126.com
-  url      : http://www.zsfbradleyjohnson.com
-  facebook : http://facebook.com/fernando.dev
-  twitter  : http://twitter.com/nandomoreirame
-
-github: https://github.com/zsfbradleyjohnson
-disqus_shortname: "fernandomoreira"
-google_analytics: UA-52446115-1
-
-paginate: 2
-comments: true
-paginate_path: "/page/:num"
-
-sass:
-  style: :compressed
-  sass_dir: _sass
-
-# Build settings
-markdown  : kramdown
-permalink : /:title/
+name: Simply Grey
+markdown: redcarpet
+highlighter: pygments
+github: https://www.github.com/liamsymonds
+about: I am an independent developer from the sunny UK. I dabble in Ruby, play in C and I'm an avid systems administrator.
+urls:
+    - text: github
+      url: https://github.com/liamsymonds
+baseurl: '/simplygrey-jekyll'
