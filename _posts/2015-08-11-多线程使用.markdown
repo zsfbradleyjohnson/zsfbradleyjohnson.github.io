@@ -8,6 +8,7 @@ comments: true
 > &nbsp;&nbsp;&nbsp;&nbsp;具有多线程能力的计算机因有硬件支持而能够在同一时间执行多于一个线程，进而提升整体处理性能。 在一个程序中，这些独立运行的程序片段叫作“线程”（Thread），利用它编程的概念就叫作“多线程处理（Multithreading）”。具有多线程能力的计算机因有硬件支持而能够在同一时间执行多于一个线程，进而提升整体处理性能。
 
 <br><br>
+
 #### 1.多线程在iOS上的实现途径
 &nbsp;&nbsp;&nbsp;&nbsp;在iOS上，我们常见的多线程有三种： `NSThread`、 `NSOperation`、 `GCD`。他们常见的优缺点分别如下：
 <br>
@@ -503,6 +504,9 @@ comments: true
 	
 效果和Log相信大家也都能猜得到，就不贴图了。
 
+***
+
+下面是一个通过`NSLock`加锁的抢票Demo，分别通过`NSThread`、`NSOperation`、`GCD`实现的Demo。具体代码不贴了，需要的可以去👇的Github上下载来看看。
 
 <br>
 <br>
