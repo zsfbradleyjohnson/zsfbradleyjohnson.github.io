@@ -1,9 +1,29 @@
-name: Bradley Johnson
-markdown: redcarpet
-highlighter: pygments
-github: https://www.github.com/zsfbradleyjohnson
-about: 我是一个iOS开发工程师。
-urls:
-    - text: github
-      url: https://www.github.com/zsfbradleyjohnson
-baseurl: ''
+# Site settings
+title: Johnson
+email: zsfbradleyjohnson@126.com
+description:
+baseurl: ""
+url: "http://www.zsfbradleyjohnson.com"
+
+author:
+  name     : 'Bradley Johnson'
+  email    : zsfbradleyjohnson@126.com
+  url      : http://www.zsfbradleyjohnson.com
+  facebook : http://facebook.com/fernando.dev
+  twitter  : http://twitter.com/nandomoreirame
+
+github: https://github.com/zsfbradleyjohnson
+disqus_shortname: "fernandomoreira"
+google_analytics: UA-52446115-1
+
+paginate: 2
+comments: true
+paginate_path: "/page/:num"
+
+sass:
+  style: :compressed
+  sass_dir: _sass
+
+# Build settings
+markdown  : kramdown
+permalink : /:title/

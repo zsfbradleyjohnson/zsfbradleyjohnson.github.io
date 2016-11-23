@@ -1,37 +1,24 @@
-# Simply Grey
-Simply Grey is a nice, easy on the eyes Jekyll theme that makes great use of grey colours. 
+# Bradley Johnson
 
-![Screenshot of Simply Grey](http://i.imgur.com/sKpj8Oz.png)
+> **iOS developer** - do something better :smirk:
 
-## Installation
-There are a few requirements to using and installing the Simply Grey theme.
+> :warning:
+  do not pull any requests
 
-1. You must have Jekyll installed. If you have no done this, do it by executing the following code. 
-`gem install jekyll`
+---
 
-2. You must have git installed. If you do not have this, install it on your system by using your package manager. For example, in Debian, type 
-`sudo apt-get install git`
+### Blog
 
-Once you have done this, installation is pretty easy.
+[Johnson私人博客](http://www.zsfbradleyjohnson.com)
+<br/>
+[简书](http://www.jianshu.com/users/91577acf333a/latest_articles)
 
-Simply clone the repository
+欢迎订阅和私信，一起讨论代码中的不足与改进它。
 
-`git clone https://github.com/liamsymonds/simplygrey-jekyll.git`
+### Thanks
 
-and serve the blog up so people can see it
+1. Thank `Zetsu - free Jekyll theme` for my private web site.
+2. Thank my teacher and friends help.
+3. Thank my self and my ex for give me power to move on.
 
-`cd simplygrey-jekyll; jekyll serve`
-
-## Configuring SimplyGrey
-The SimplyGrey theme is actually very easy to configure.
-
-### Adding more links to the navigation bar
-1. Open the _config.yml file
-2. Add some more values to the urls hash like the others that already exist there.
-
-### Changing the site name
-1. Open the _config.yml file
-2. Change the site name
-
-### Changing the logo/picture image
-1. Drop a 75x75 image into the img directory.
+:yum:
