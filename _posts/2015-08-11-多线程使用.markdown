@@ -279,18 +279,229 @@ comments: true
     }
 	@end
 
+同样的，我们也通过`NSInvocationOperation`和`NSOperationQueue`来写一个经典的异步下载数据同步到主线程刷新UI的Demo：
 
 
+	#define ImgUrl @"http://oaldigvho.bkt.clouddn.com/bradleyJohnson.jpg"
 
+	#import "NSOperationViewController.h"
 
+	@interface NSOperationViewController ()
 
+	@property (nonatomic , strong) UIImageView * imgView;
 
+	@end
 
+	@implementation NSOperationViewController
 
+	- (void)viewDidLoad {
+    	[super viewDidLoad];
 
+    	self.imgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 100, self.view.bounds.size.width, self.view.bounds.size.height-200)];
+    	self.imgView.backgroundColor = [UIColor lightGrayColor];
+    	[self.view addSubview:self.imgView];
 
+    	NSInvocationOperation * invocationOperation = [[NSInvocationOperation alloc] initWithTarget:self selector:@selector(downLoadImageData:) object:ImgUrl];
+    
+    	NSOperationQueue * queue = [[NSOperationQueue alloc] init];
+    	[queue addOperation:invocationOperation];
+    
+    	NSLog(@"Main thread : %@",[NSThread currentThread]);
+	}
 
+	-(void)downLoadImageData:(NSString *)url
+	{
+    	NSData * data = [NSData dataWithContentsOfURL:[NSURL URLWithString:url]];
+    
+    	if (data) {
+        
+        	NSLog(@"Ready for data thread : %@",[NSThread currentThread]);
+        
+        	[NSThread sleepForTimeInterval:2];
+        
+        	// 跳回主线程刷新 UI
+        
+        	NSInvocationOperation * invocationOperation = [[NSInvocationOperation alloc] initWithTarget:self selector:@selector(reloadUI:) object:data];
+        
+        	[[NSOperationQueue mainQueue] addOperation:invocationOperation];
+    	}
+	}
 
+	-(void)reloadUI:(NSData *)data
+	{
+    	NSLog(@"Reload UI thread : %@",[NSThread currentThread]);
+    
+    	self.imgView.image = [UIImage imageWithData:data];
+	}
+
+	@end
+	
+效果图基本如同上一个，就不录制效果图了，但是Log日志还是放一下:
+<br>
+![Log](http://oaldigvho.bkt.clouddn.com/2.2.png)
+
+<br><br>
+
+#### 4.多线程使用- `GCD`
+&nbsp;&nbsp;&nbsp;&nbsp; `GCD`是一个非常好用的东西，因为它几乎没有了任务的概念，你只需要创建队列，指定是串行还是并行，通过同步或异步方法,就可以直接通过`Block`的方式添加任务，在代码的阅读性上，是十分流畅的。
+<br>一个简单异步并发操作的例子如下:
+
+	#import "GCDViewController.h"
+
+	@interface GCDViewController ()
+
+	@end
+
+	@implementation GCDViewController
+
+	- (void)viewDidLoad {
+    	[super viewDidLoad];
+    
+    	// 创建队列，声明队列名称，指定为并行队列
+    	dispatch_queue_t queue = dispatch_queue_create("first.queue", DISPATCH_QUEUE_CONCURRENT);
+    
+    	// 指定异步操作
+    	dispatch_async(queue, ^{
+        	// 添加任务
+        	// do something
+    	});
+	}
+
+	@end
+
+##### 4.1 `GCD`-创建队列
+&nbsp;&nbsp;&nbsp;&nbsp; `GCD`可以自行创建指定名称和指定并行或串行的队列，也可以获取系统为我们准备的全局并行队列及主队列。<br>
+&nbsp;&nbsp;&nbsp;&nbsp; 我们通过`dispatch_queue_t`来声明这是一个队列，通过`dispatch_queue_create(const char * _Nullable label,dispatch_queue_attr_t  _Nullable attr)`来指定名称和指定并行或串行。
+<br>值得注意的是，名称必须是C字符串型，即`"name"`，不需要在前面跟`@`。
+即`dispatch_queue_create("queue_name", DISPATCH_QUEUE_CONCURRENT)`并行队列<br>
+和`dispatch_queue_create("queue_name", DISPATCH_QUEUE_SERIAL)`串行队列。<br>
+
+也可以通过：
+`dispatch_get_main_queue()`获取主队列<br>
+`dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)`获取全局并行队列，前面的参数为队列优先级。
+<br>
+##### 4.2 `GCD`-同步或异步
+&nbsp;&nbsp;&nbsp;&nbsp; 我们创建好队列后，就到了决定开同步或异步的时候了。就是在我们将队列放入同步或异步执行中的时候，决定了该队列的执行线程。所有的同步操作都在主线程中完成，无论并行或者串行。而异步操作都会开启子线程。
+
+	#import "GCDViewController.h"
+
+	@interface GCDViewController ()
+
+	@end
+
+	@implementation GCDViewController
+
+	- (void)viewDidLoad {
+    	[super viewDidLoad];
+    
+    	dispatch_queue_t queue1 = dispatch_queue_create("first.queue", DISPATCH_QUEUE_CONCURRENT);
+    	dispatch_queue_t queue2 = dispatch_queue_create("first.queue", DISPATCH_QUEUE_SERIAL);
+    
+    	dispatch_sync(queue1, ^{
+        	NSLog(@"q1 sync - the thread : %@",[NSThread currentThread]);
+    	});
+    
+    	dispatch_async(queue1, ^{
+        	NSLog(@"q1 async 1 - the thread : %@",[NSThread currentThread]);
+    	});
+    
+    	dispatch_async(queue1, ^{
+        	NSLog(@"q1 async 2 - the thread : %@",[NSThread currentThread]);
+    	});
+    
+    	dispatch_async(queue1, ^{
+        	NSLog(@"q1 async 3 - the thread : %@",[NSThread currentThread]);
+    	});
+    
+    	dispatch_async(queue1, ^{
+        	NSLog(@"q1 async 4 - the thread : %@",[NSThread currentThread]);
+    	});
+    
+    	dispatch_sync(queue2, ^{
+        	NSLog(@"q2 sync - the thread : %@",[NSThread currentThread]);
+    	});
+    
+    	dispatch_async(queue2, ^{
+        	NSLog(@"q2 async 1 - the thread : %@",[NSThread currentThread]);
+    	});
+    
+    	dispatch_async(queue2, ^{
+        	NSLog(@"q2 async 2 - the thread : %@",[NSThread currentThread]);
+    	});
+    	
+    	dispatch_async(queue2, ^{
+        	NSLog(@"q2 async 3 - the thread : %@",[NSThread currentThread]);
+    	});
+    
+    	dispatch_async(queue2, ^{
+        	NSLog(@"q2 async 4 - the thread : %@",[NSThread currentThread]);
+    	});
+        
+    	NSLog(@"Main thread : %@",[NSThread currentThread]);
+		}
+
+	@end
+这里我们创建了并行和串行两个队列，分别在同步和异步中执行，我们看看打印:<br>
+![Log](http://oaldigvho.bkt.clouddn.com/2.4.png)
+我们可以注意到异步并行队列的Log顺序是无序的，说明异步并行队列开启了多个子线程。而异步串行队列却是用同一个非主线程内存地址按顺序打印，说明只开启了一个子线程。而所有的同步操作，都在主线程中进行。
+
+还是老规矩，我们同`GCD`来写那个经典异步下载图片数据，再回到主线程刷新UI的Demo：<br>
+
+	#define ImgUrl @"http://oaldigvho.bkt.clouddn.com/bradleyJohnson.jpg"
+
+	#import "GCDViewController.h"
+
+	@interface GCDViewController ()
+
+	@property (nonatomic , strong) UIImageView * imgView;
+
+	@end
+
+	@implementation GCDViewController
+
+	- (void)viewDidLoad {
+    	[super viewDidLoad];
+
+    	self.imgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 100, self.view.bounds.size.width, self.view.bounds.size.height-200)];
+    	self.imgView.backgroundColor = [UIColor lightGrayColor];
+    	[self.view addSubview:self.imgView];
+    
+		dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        	[self downLoadImageData:ImgUrl];
+    	});
+    
+    
+    	NSLog(@"Main thread : %@",[NSThread currentThread]);
+
+	}
+
+	-(void)downLoadImageData:(NSString *)url
+	{
+    	NSData * data = [NSData dataWithContentsOfURL:[NSURL URLWithString:url]];
+    
+    	if (data) {
+        
+        	NSLog(@"Ready for data thread : %@",[NSThread currentThread]);
+        
+        	[NSThread sleepForTimeInterval:2];
+        
+        	// 跳回主线程刷新 UI
+        	dispatch_async(dispatch_get_main_queue(), ^{
+            	[self reloadUI:data];
+        	});
+    	}
+	}
+
+	-(void)reloadUI:(NSData *)data
+	{
+    	NSLog(@"Reload UI thread : %@",[NSThread currentThread]);
+    
+    	self.imgView.image = [UIImage imageWithData:data];
+	}
+
+	@end
+	
+效果和Log相信大家也都能猜得到，就不贴图了。
 
 
 <br>
