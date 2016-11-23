@@ -549,8 +549,10 @@ comments: true
 
 
 
-```Object-C
+```
     Developer * develop = [Developer new];
+    develop.name = @"BradleyJohnson";
+    develop.age  = 24;
 ```
 
 ***
