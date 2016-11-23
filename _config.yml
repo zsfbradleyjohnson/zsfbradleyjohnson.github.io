@@ -1,9 +1,9 @@
-name: Simply Grey
+name: Bradley Johnson
 markdown: redcarpet
 highlighter: pygments
-github: https://www.github.com/liamsymonds
-about: I am an independent developer from the sunny UK. I dabble in Ruby, play in C and I'm an avid systems administrator.
+github: https://www.github.com/zsfbradleyjohnson
+about: 我是一个iOS开发工程师。
 urls:
     - text: github
-      url: https://github.com/liamsymonds
+      url: https://www.github.com/zsfbradleyjohnson
 baseurl: ''
