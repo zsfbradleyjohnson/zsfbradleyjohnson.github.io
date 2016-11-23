@@ -379,8 +379,9 @@ comments: true
 
 也可以通过：
 `dispatch_get_main_queue()`获取主队列<br>
-`dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)`获取全局并行队列，前面的参数为队列优先级。
+和`dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)`获取全局并行队列，前面的参数为队列优先级。
 <br>
+
 ##### 4.2 `GCD`-同步或异步
 &nbsp;&nbsp;&nbsp;&nbsp; 我们创建好队列后，就到了决定开同步或异步的时候了。就是在我们将队列放入同步或异步执行中的时候，决定了该队列的执行线程。所有的同步操作都在主线程中完成，无论并行或者串行。而异步操作都会开启子线程。
 
@@ -503,13 +504,49 @@ comments: true
 	@end
 	
 效果和Log相信大家也都能猜得到，就不贴图了。
+<br>
+
+##### 4.3 `GCD`-队列组
+&nbsp;&nbsp;&nbsp;&nbsp; 有时候，我们希望完成一些队列的任务后，再去完成某个操作，所以我们有队列组的概念。意思就是说，我们通过把一些队列放进某个组中，当组内的所以队列的操作完成后，组会触发一个`dispatch_group_notify`的方法来通知我们，这样我们就可以在这里面进行我们最后的操作。<br>
+
+	#import "GCDViewController.h"
+
+	@implementation GCDViewController
+
+	- (void)viewDidLoad {
+    	[super viewDidLoad];
+    
+    	// 创建队列组
+    	dispatch_group_t group = dispatch_group_create();
+    
+    	dispatch_queue_t queueOne = dispatch_queue_create("queue.one", DISPATCH_QUEUE_CONCURRENT);
+    	dispatch_queue_t queueTwo = dispatch_queue_create("queue.two", DISPATCH_QUEUE_CONCURRENT);
+    
+    	// 队列组异步完成队列任务
+    	dispatch_group_async(group, queueOne, ^{
+        	//do something
+    	});
+    	// 队列组异步完成队列任务
+    	dispatch_group_async(group, queueTwo, ^{
+        	//do something
+    	});
+    	// 队列组完成所有队列任务触发通知方法
+    	dispatch_group_notify(group, dispatch_get_main_queue(), ^{
+        	NSLog(@"Finish");
+    	});
+    
+	}
+
+	@end
+
+
+
+
 
 ***
 
 下面是一个通过`NSLock`加锁的抢票Demo，分别通过`NSThread`、`NSOperation`、`GCD`实现的Demo。具体代码不贴了，需要的可以去👇的Github上下载来看看。
 
-<br>
-<br>
 <br>
 <br>
 如果你想要看到源码，可以到我的github上下载使用：[Demo](https://github.com/zsfbradleyjohnson/multithreadingDemo)。
